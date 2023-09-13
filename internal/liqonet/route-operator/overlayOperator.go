@@ -76,6 +76,9 @@ func (ovc *OverlayController) Reconcile(ctx context.Context, req ctrl.Request) (
 		return ctrl.Result{}, nil
 	}
 	// If it is our pod than add the mac address annotation.
+	klog.Info("****")
+	klog.Info("Self Pod Name: ", ovc.podName, " Comparing with: ", pod.Name)
+	klog.Info("****")
 	if ovc.podName == pod.Name {
 		if liqonetutils.AddAnnotationToObj(&pod, vxlanMACAddressKey, ovc.vxlanDev.Link.HardwareAddr.String()) {
 			if err := ovc.Update(ctx, &pod); err != nil {
