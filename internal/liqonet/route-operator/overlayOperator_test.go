@@ -93,7 +93,7 @@ var _ = Describe("OverlayOperator", func() {
 		}
 		// Create dummy overlay operator.
 		ovc = &OverlayController{
-			podIP:      overlayPodIP,
+			podName:    overlayPodName,
 			vxlanPeers: make(map[string]*overlay.Neighbor),
 			vxlanDev:   vxlanDevice,
 			Client:     k8sClient,

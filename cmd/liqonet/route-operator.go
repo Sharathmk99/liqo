@@ -72,6 +72,11 @@ func runRouteOperator(commonFlags *liqonetCommonFlags, routeFlags *routeOperator
 		klog.Errorf("unable to get podIP: %v", err)
 		os.Exit(1)
 	}
+	podName, err := liqonetutils.GetPodName()
+	if err != nil {
+		klog.Errorf("unable to get pod name: %v", err)
+		os.Exit(1)
+	}
 	nodeName, err := liqonetutils.GetNodeName()
 	if err != nil {
 		klog.Errorf("unable to get node name: %v", err)
@@ -161,7 +166,7 @@ func runRouteOperator(commonFlags *liqonetCommonFlags, routeFlags *routeOperator
 		os.Exit(1)
 	}
 	eventRecorder := mainMgr.GetEventRecorderFor(liqoconst.LiqoRouteOperatorName + "." + podIP.String())
-	routeController := routeoperator.NewRouteController(podIP.String(), vxlanDevice, vxlanRoutingManager, eventRecorder, mainMgr.GetClient())
+	routeController := routeoperator.NewRouteController(podName, vxlanDevice, vxlanRoutingManager, eventRecorder, mainMgr.GetClient())
 	if err = routeController.SetupWithManager(mainMgr); err != nil {
 		klog.Errorf("unable to setup controller: %s", err)
 		os.Exit(1)
