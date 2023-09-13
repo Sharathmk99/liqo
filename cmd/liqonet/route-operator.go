@@ -166,7 +166,7 @@ func runRouteOperator(commonFlags *liqonetCommonFlags, routeFlags *routeOperator
 		os.Exit(1)
 	}
 	eventRecorder := mainMgr.GetEventRecorderFor(liqoconst.LiqoRouteOperatorName + "." + podIP.String())
-	routeController := routeoperator.NewRouteController(podName, vxlanDevice, vxlanRoutingManager, eventRecorder, mainMgr.GetClient())
+	routeController := routeoperator.NewRouteController(podIP.String(), vxlanDevice, vxlanRoutingManager, eventRecorder, mainMgr.GetClient())
 	if err = routeController.SetupWithManager(mainMgr); err != nil {
 		klog.Errorf("unable to setup controller: %s", err)
 		os.Exit(1)
@@ -175,7 +175,7 @@ func runRouteOperator(commonFlags *liqonetCommonFlags, routeFlags *routeOperator
 		klog.Errorf("unable to start go routine that configures firewall rules for the route controller: %v", err)
 		os.Exit(1)
 	}
-	overlayController, err := routeoperator.NewOverlayController(podIP.String(), vxlanDevice, mutex, nodeMap, overlayMgr.GetClient())
+	overlayController, err := routeoperator.NewOverlayController(podName, vxlanDevice, mutex, nodeMap, overlayMgr.GetClient())
 	if err != nil {
 		klog.Errorf("an error occurred while creating overlay controller: %v", err)
 		os.Exit(3)
