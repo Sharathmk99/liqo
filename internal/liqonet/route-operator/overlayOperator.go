@@ -219,8 +219,12 @@ func (ovc *OverlayController) podFilter(obj client.Object) bool {
 		klog.Infof("object {%s} is not of type corev1.Pod", obj.GetName())
 		return false
 	}
+	klog.Info("****")
+	klog.Info("Pod Filter - Self Pod Name: ", ovc.podName, " Comparing with: ", p.Name)
+	klog.Info("****")
 	// If it is our pod then process it.
 	if ovc.podName == p.Name {
+		klog.Info("---Returing True---")
 		return true
 	}
 	// If it is not our pod then check if the vxlan mac address has been set.
