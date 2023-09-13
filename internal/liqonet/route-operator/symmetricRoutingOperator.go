@@ -121,7 +121,15 @@ func NewSymmetricRoutingOperator(nodeName string, routingTableID int, vxlanDevic
 func (src *SymmetricRoutingController) addRoute(req ctrl.Request, p *corev1.Pod) (bool, error) {
 	src.nodesLock.RLock()
 	defer src.nodesLock.RUnlock()
+	klog.Info("-----------")
+	for k, v := range src.vxlanNodes {
+		klog.Info("Key: ", k, " ,Value: ", v)
+	}
+	klog.Info("-----------")
 	nodeIP, ok := src.vxlanNodes[p.Spec.NodeName]
+	klog.Info("-----------")
+	klog.Info(p.Spec.NodeName)
+	klog.Info("-----------")
 	if !ok {
 		return false, fmt.Errorf("ip not set")
 	}
